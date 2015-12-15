@@ -15,7 +15,7 @@ gulp.task("browserify", function () {
         .pipe(buffer())
         .pipe(sourcemaps.init({loadMaps: true}))
         .pipe(sourcemaps.write("."))
-        .pipe(gulp.dest("./src/prd"));
+        .pipe(gulp.dest("src/prd"));
 });
 
 
