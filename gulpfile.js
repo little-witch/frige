@@ -21,7 +21,7 @@ gulp.task("browserify", function () {
 // 默认任务
 gulp.task('default', function(){
     // gulp.run('lint', 'sass', 'scripts');
-
+    console.log("开始构建");
     // 监听文件变化
     gulp.watch('./js/*.js', function(){
         gulp.run('browserify');
