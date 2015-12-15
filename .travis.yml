@@ -1,5 +1,7 @@
-language: gulp
+language: node_js
+node_js:
+  - "0.12"
 
-gulp:
-
-     -3.9.0
+before_script:
+  - npm install -g gulp
+script: gulp
