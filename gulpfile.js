@@ -3,7 +3,6 @@ var browserify = require("browserify");
 var sourcemaps = require("gulp-sourcemaps");
 var source = require('vinyl-source-stream');
 var buffer = require('vinyl-buffer');
-var gutil = require('gulp-util');
 
 gulp.task("browserify", function () {
     var b = browserify({
@@ -14,7 +13,6 @@ gulp.task("browserify", function () {
         .pipe(source("login.js"))
         .pipe(buffer())
         // .pipe(sourcemaps.init({loadMaps: true}))
-        .on('error', gutil.log)
         .pipe(sourcemaps.write("./"))
         .pipe(gulp.dest("./src/prd"));
 });

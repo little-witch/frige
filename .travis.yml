@@ -4,4 +4,7 @@ node_js:
 
 before_script:
   - npm install -g gulp
+  - npm install -g browserify
+  - npm install -g vinyl-source-stream
+  - npm install -g vinyl-buffer
 script: gulp
