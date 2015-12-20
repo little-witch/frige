@@ -3,24 +3,66 @@ var browserify = require("browserify");
 var sourcemaps = require("gulp-sourcemaps");
 var source = require('vinyl-source-stream');
 var buffer = require('vinyl-buffer');
+var rev = require('gulp-rev');
+var revReplace = require('gulp-rev-replace');
+var fs = require("fs");
+var result;
+var pathScript = "./src/prd/scripts";
+var pathStyles = "./src/prd/styles";
+var path = "./src/files.txt";
+var config = {
+    scripts:[
+        "./src/scripts/page/login.js",//源文件路径
+        "./src/scripts/page/index.js"
+    ]
+};
+gulp.task("file",function (){
 
-gulp.task("browserify", function () {
-    var b = browserify({
-        entries: "./src/scripts/page/login.js",
-        debug: true
+    fs.readdir(pathScript, function(err, files){
+
+        fs.writeFile(path,files);
     });
-    return b.bundle()
-        .pipe(source("login.js"))
-        .pipe(buffer())
-        // .pipe(sourcemaps.init({loadMaps: true}))
-        .pipe(sourcemaps.write("./"))
-        .pipe(gulp.dest("./src/prd"));
+
+});
+gulp.task("clear",function (){
+    var dirList = fs.readdirSync(pathScript);
+
+     dirList.forEach(function(fileName)
+     {
+        fs.unlinkSync(pathScript+"/" + fileName);
+     });
+     var dirList = fs.readdirSync(pathStyles);
+
+      dirList.forEach(function(fileName)
+      {
+         fs.unlinkSync(pathStyles+"/" + fileName);
+      });
+})
+gulp.task("browserify", function () {
+
+    for(var i=0;i<config.scripts.length;i++){
+        var item = config.scripts[i];//取到当前文件路径
+        var name = config.scripts[i].split("/").pop();//取到当前文件的名称,生成的文件名称与之一样
+        var b = browserify({
+            entries: item,
+            debug: true
+        });
+           b.bundle()
+            .pipe(source(name))
+            .pipe(buffer())
+            .pipe(rev())
+            .pipe(revReplace())
+            .pipe(sourcemaps.write("./"))
+            .pipe(gulp.dest(pathScript));
+
+    }
+    setTimeout(function(){
+        gulp.run("file");
+    },5000);
+
 });
 
 // 默认任务
 gulp.task('default', function(){
-    // 监听文件变化
-    // gulp.watch('.//*.js', function(){
-        gulp.run('browserify');
-    // });
+    gulp.run(['clear','browserify']);
 });
