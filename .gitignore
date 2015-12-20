@@ -34,5 +34,4 @@ Thumbs.db
 # *.tar.gz
 
 # qzz project ignore
-/node_modules/
 /prd/

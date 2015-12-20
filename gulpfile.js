@@ -25,18 +25,26 @@ gulp.task("file",function (){
 
 });
 gulp.task("clear",function (){
-    var dirList = fs.readdirSync(pathScript);
 
-     dirList.forEach(function(fileName)
-     {
-        fs.unlinkSync(pathScript+"/" + fileName);
-     });
-     var dirList = fs.readdirSync(pathStyles);
+     var folder_scripts = fs.existsSync(pathScript);
+     var folder_styles = fs.existsSync(pathStyles);
+     if(folder_scripts == true){
+        var dirList = fs.readdirSync(pathScript);
 
-      dirList.forEach(function(fileName)
-      {
-         fs.unlinkSync(pathStyles+"/" + fileName);
-      });
+         dirList.forEach(function(fileName)
+         {
+            fs.unlinkSync(pathScript+"/" + fileName);
+         });
+     }
+     if(folder_styles==true){
+         var dirList = fs.readdirSync(pathStyles);
+
+          dirList.forEach(function(fileName)
+          {
+             fs.unlinkSync(pathStyles+"/" + fileName);
+          });
+     }
+
 })
 gulp.task("browserify", function () {
 
