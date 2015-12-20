@@ -5,5 +5,5 @@
 @import url("../../node_modules/amazeui/dist/css/admin.css");
 @import url("../../node_modules/amazeui/dist/css/app.css");
 footer {
-    text-align: center;
+    text-align: center; 
 }
