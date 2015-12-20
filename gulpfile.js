@@ -14,13 +14,29 @@ var config = {
     scripts:[
         "./src/scripts/page/login.js",//源文件路径
         "./src/scripts/page/index.js"
+    ],
+    styles:[
+        "./src/styles/login.css",
+        "./src/styles/common.css"
     ]
 };
 gulp.task("file",function (){
-
+    fs.writeFile(path,"");
     fs.readdir(pathScript, function(err, files){
 
-        fs.writeFile(path,files);
+        files.forEach(function(files){
+            fs.writeFile(path,"./prd/scripts/"+files+"\n",{ 'flag': 'a' });
+        });
+
+
+    });
+    fs.readdir(pathStyles, function(err, files){
+
+        files.forEach(function(files){
+            fs.writeFile(path,"./prd/styles/"+files+"\n",{ 'flag': 'a' });
+        });
+
+
     });
 
 });
@@ -31,8 +47,7 @@ gulp.task("clear",function (){
      if(folder_scripts == true){
         var dirList = fs.readdirSync(pathScript);
 
-         dirList.forEach(function(fileName)
-         {
+         dirList.forEach(function(fileName){
             fs.unlinkSync(pathScript+"/" + fileName);
          });
      }
@@ -59,11 +74,14 @@ gulp.task("browserify", function () {
             .pipe(source(name))
             .pipe(buffer())
             .pipe(rev())
-            .pipe(revReplace())
             .pipe(sourcemaps.write("./"))
             .pipe(gulp.dest(pathScript));
 
     }
+    gulp.src('src/styles/*.css')
+        .pipe(rev())
+        .pipe(gulp.dest(pathStyles));
+        
     setTimeout(function(){
         gulp.run("file");
     },5000);
